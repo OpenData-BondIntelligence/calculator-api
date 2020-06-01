@@ -16,7 +16,7 @@ Create a Python Virtual Env and activate it,
 
 Install required packages,
 
-    path/to/calculator-api/web>pip install -r requirements.txt
+    (virtualenv)path/to/calculator-api/web>pip install -r requirements.txt
 
 # Running the Project
 After following the steps mentioned previously, keeping the virtual environment
@@ -60,4 +60,4 @@ this project. Commands for a successful deployment,
     path/to/calculator-api/web> docker run -p 5000:5000 calculator-api 
     
 # Developer
-* [Rohit Amale] (mailto:rohitamale@gmail.com)
+* [Rohit Amale](mailto:rohitamale@gmail.com)

@@ -9,46 +9,62 @@ results = []
 
 @app.route('/', methods=['GET'])
 def home():
-    return jsonify(results[-10:][::-1])
+    # Return the most recent result, if results is empty then handle it gracefully
+    if not results:
+        response = dict(message="Most recent value not available")
+    else:
+        response = results[-1]
+    return response, 200
+
+
+@app.route('/recentresults', methods=['GET'])
+def recent_results():
+    return jsonify(results[-10:][::-1]), 200
 
 
 @app.route('/allresults', methods=['GET'])
 def all_results():
-    return jsonify(results)
+    return jsonify(results), 200
 
 
 @app.route('/operate', methods=['GET'])
 def operate():
 
-    if request.args is not None:
+    if 'operation' in request.args:
         operation = request.args['operation']
     else:
-        return "Invalid operation parameters."
+        return dict(error="Calculation Error", message="Invalid operation parameters"), 400
     result = 0
     # Check for the operation type and get the result
-    if '+' in operation:
-        operatee = operation.split('+')
-        result = int(operatee[0]) + int(operatee[1])
-    if '-' in operation:
-        operatee = operation.split('-')
-        result = int(operatee[0]) - int(operatee[1])
-    if '*' in operation:
-        operatee = operation.split('*')
-        result = int(operatee[0]) * int(operatee[1])
-    if '/' in operation:
-        operatee = operation.split('/')
-        result = int(operatee[0]) / int(operatee[1])
-    results.append({
-        "updated_date": datetime.now(),
-        "operation": operation,
-        "result": result
-    })
-    return jsonify(f"The most recent calculation is : {result}")
+    try:
+        if '+' in operation:
+            operatee = operation.split('+')
+            result = int(operatee[0]) + int(operatee[1])
+        if '-' in operation:
+            operatee = operation.split('-')
+            result = int(operatee[0]) - int(operatee[1])
+        if '*' in operation:
+            operatee = operation.split('*')
+            result = int(operatee[0]) * int(operatee[1])
+        if '/' in operation:
+            operatee = operation.split('/')
+            result = int(operatee[0]) / int(operatee[1])
+        response = {
+            "updated_date": datetime.now(),
+            "operation": operation,
+            "result": result
+        }
+        results.append(response)
+        return response, 200
+    except Exception as e:
+        return dict(error="Calculation Error",
+                    exception=str(e),
+                    message="Review operation parameters and try again"), 400
 
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return jsonify({'response_code': 404, 'response': 'This page does not exist'})
+    return dict(response='This page does not exist'), 404
 
 
 if __name__ == '__main__':

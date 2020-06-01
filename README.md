@@ -1,6 +1,6 @@
 # calculator-api
 This project contains API for performing basic calculations - add, subtract, multiply
-and divide using a python flask app. 
+and divide using a Python 3 Flask app. 
 
 # Getting Started
 
@@ -9,9 +9,9 @@ Clone the repo from git hub using,
 
     git clone https://github.com/rohitamale18/calculator-api.git
 
-Create a Python Virtual Env and activate it,
+Create a Python3 Virtual Env and activate it,
 
-    python -m virtualenv /path/to/venv
+    python3 -m venv /path/to/venv
     path/to/venv> Scripts/activate.bat
 
 Install required packages,
